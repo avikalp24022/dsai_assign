@@ -1,4 +1,4 @@
-# 🤖 DSAI Agentic System
+# DSAI Agentic System
 
 Multi-modal AI agent that processes text, images, PDFs, and audio files to perform tasks like summarization, sentiment analysis, code explanation, and more.
 

@@ -52,7 +52,7 @@ def transcribe(audio_path: str, user_prompt: str) -> dict:
         user_query=user_prompt,
         audio_data=audio_file
 )
-        response = inference_gemini(user_prompt=audio_file)
+        response = inference_gemini(user_prompt=audio_prompt)
 
     return {
         "text": response["text"],

@@ -33,10 +33,6 @@ Return JSON array: ["task1", "task2"]
 """
 
 def process(state: AgentState) -> AgentState:
-    """
-    Create execution plan based on intent.
-    """
-    
     print("\n[PLANNER] Creating execution plan...")
     
     has_content = bool(state.get("extracted_content"))
@@ -51,8 +47,6 @@ def process(state: AgentState) -> AgentState:
     try:
         plan = inference(user_prompt=planning_prompt, json_req=True)
        
-        
-        # Ensure it's a list
         if isinstance(plan, dict) and "plan" in plan:
             plan = plan["plan"]
         elif not isinstance(plan, list):

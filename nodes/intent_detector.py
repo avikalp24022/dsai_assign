@@ -1,5 +1,3 @@
-# nodes/intent_detector.py
-
 from graph.state import AgentState
 from tools.llm_inference import inference
 import json

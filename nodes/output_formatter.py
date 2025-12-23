@@ -1,10 +1,6 @@
 from graph.state import AgentState
 
-def process(state: AgentState) -> AgentState:
-    """
-    Format final output with all results
-    """
-    
+def process(state: AgentState) -> AgentState:    
     print("\n[OUTPUT FORMATTER] Formatting results...")
     
     output_parts = []

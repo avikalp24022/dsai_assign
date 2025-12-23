@@ -8,8 +8,6 @@ from typing import TypedDict, Optional, List, Dict, Any
 
 
 def detect_input_type(user_prompt: str, input_data: Optional[str]) -> str:
-    """Detect what type of input we're dealing with"""
-    
     # Check if it's a file
     if input_data and os.path.isfile(input_data):
         ext = os.path.splitext(input_data)[1].lower()
@@ -73,10 +71,6 @@ def extract_content(input_type: str, input_data: str) -> Dict[str, Any]:
 
 
 def process(state: AgentState) -> AgentState:
-    """
-    Main input handler - processes ANY input and extracts content
-    """
-    
     print("\n[INPUT HANDLER] Processing input...")
     
     # Step 1: Detect input type
@@ -102,6 +96,6 @@ def process(state: AgentState) -> AgentState:
     except Exception as e:
         print(f"[INPUT HANDLER] Extraction failed: {str(e)}")
         state["logs"].append(f"ERROR: {str(e)}")
-        state["extracted_content"] = state["user_prompt"]  # Fallback to prompt
+        state["extracted_content"] = state["user_prompt"]
     
     return state
