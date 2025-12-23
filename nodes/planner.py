@@ -1,6 +1,5 @@
 from graph.state import AgentState
 from tools.llm_inference import inference
-import json
 
 PLANNING_PROMPT = """
 You are a task planner. Create an execution plan based on the user's intent.
@@ -67,7 +66,6 @@ def process(state: AgentState) -> AgentState:
     
     except Exception as e:
         print(f"[PLANNER] Planning failed: {str(e)}")
-        # Fallback: simple plan based on intent
         intent = state["detected_intent"]
         if intent == "summarize":
             state["execution_plan"] = ["summarize"]

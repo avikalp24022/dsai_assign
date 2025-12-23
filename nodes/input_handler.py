@@ -39,21 +39,21 @@ def extract_content(input_type: str, input_data: str) -> Dict[str, Any]:
     if input_type == "image":
         result = ocr_tool.extract(input_data)
         return {
-            "content": result["text"],
+            "content": result["text"] or "",
             "metadata": {"ocr_confidence": result["confidence"]}
         }
     
     elif input_type == "pdf":
-        result = pdf_parser.extract(input_data)
+        result = pdf_parser.extract_pdf(input_data)
         return {
-            "content": result["text"],
-            "metadata": {"pages": result["pages"]}
+            "content": result["text"] or "",
+            "metadata": {"confidence": result["confidence"], "pages": result["pages"]}
         }
     
     elif input_type == "audio":
         result = asr.transcribe(input_data)
         return {
-            "content": result["text"],
+            "content": result["text"] or "",
             "metadata": {"duration": result["duration"]}
         }
     
@@ -67,7 +67,7 @@ def extract_content(input_type: str, input_data: str) -> Dict[str, Any]:
     
     elif input_type == "text":
         return {
-            "content": input_data,
+            "content": input_data or "",
             "metadata": {}
         }
 

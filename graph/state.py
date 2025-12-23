@@ -1,5 +1,3 @@
-# graph/state.py
-
 from typing import TypedDict, Optional, List, Dict, Any
 
 class AgentState(TypedDict):

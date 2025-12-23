@@ -41,24 +41,18 @@ If needs_clarification = true, provide a short, clear question.
 """
 
 
-def process(state: AgentState) -> AgentState:
-    """
-    Detect user intent and ask follow-up if unclear
-    """
-    
+def process(state: AgentState) -> AgentState:    
     print("\n[INTENT DETECTOR] Analyzing intent...")
     
-    # If user already provided clarification, use it
     if state.get("user_clarification"):
         print("[INTENT DETECTOR] Using user clarification")
         prompt = state["user_clarification"]
     else:
         prompt = state["user_prompt"]
     
-    # Call LLM to detect intent
     detection_prompt = INTENT_DETECTION_PROMPT.format(
         query=prompt,
-        content=state.get("extracted_content", "")[:500],  # First 500 chars
+        content=state.get("extracted_content", "")[:500],
         input_type=state.get("input_type", "text")
     )
     
@@ -68,7 +62,7 @@ def process(state: AgentState) -> AgentState:
         match = re.search(r'\{.*\}', raw, re.DOTALL)
         if not match:
             raise ValueError("No JSON found in model output")
-        json_str = match.group()      # ← THIS is the fix
+        json_str = match.group()
         result = json.loads(json_str)
         # result = json.loads(match)
         
@@ -88,7 +82,6 @@ def process(state: AgentState) -> AgentState:
     
     except Exception as e:
         print(f"[INTENT DETECTOR] Error: {str(e)}")
-        # Fallback: mark as needing clarification
         state["needs_clarification"] = True
         state["clarification_question"] = "What would you like me to do with this content?"
     

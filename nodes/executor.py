@@ -7,7 +7,7 @@ from tools import (
 TASK_MAP = {
     "transcribe_audio": asr.transcribe,
     "ocr_image": ocr_tool.extract,
-    "parse_pdf": pdf_parser.extract,
+    "parse_pdf": pdf_parser.extract_pdf,
     "fetch_youtube": youtube_transcribe.get_transcript,
     "summarize": summarization.summarize,
     "sentiment_analysis": sentiment_analysis.analyze,
@@ -16,10 +16,6 @@ TASK_MAP = {
 }
 
 def process(state: AgentState) -> AgentState:
-    """
-    Execute current task in the plan
-    """
-    
     if state["current_step"] >= len(state["execution_plan"]):
         return state
     
@@ -38,16 +34,13 @@ def process(state: AgentState) -> AgentState:
         
         # Determine input for the tool
         if current_task in ["transcribe_audio", "ocr_image", "parse_pdf"]:
-            # These need file paths
             input_data = state.get("input_data")
             result = tool_func(input_data)
             
-            # Update extracted content if this is an extraction task
             if "text" in result:
                 state["extracted_content"] = result["text"]
         
         elif current_task == "fetch_youtube":
-            # YouTube needs the URL from prompt
             result = tool_func(state["user_prompt"])
             if result.get("success"):
                 state["extracted_content"] = result["transcript"]
@@ -57,8 +50,12 @@ def process(state: AgentState) -> AgentState:
             query = state["user_prompt"]
             result = tool_func(content)
 
+        elif current_task == "summarize":
+            content = state.get("extracted_content", "")
+            query = state["user_prompt"]
+            result = tool_func(content)
+
         else:
-            # Other tasks work on extracted content
             content = state.get("extracted_content", "")
             query = state["user_prompt"]
             result = tool_func(content, query)

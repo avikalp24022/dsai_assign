@@ -1,5 +1,3 @@
-# graph/workflow.py
-
 from langgraph.graph import StateGraph, END
 from graph.state import AgentState
 from nodes import (
@@ -11,13 +9,11 @@ from nodes import (
 )
 
 def should_ask_clarification(state: AgentState) -> str:
-    """Check if we need to ask user for clarification"""
     if state["needs_clarification"] and not state.get("user_clarification"):
         return "clarify"
     return "plan"
 
 def should_continue_execution(state: AgentState) -> str:
-    """Check if there are more steps to execute"""
     if state["current_step"] < len(state["execution_plan"]):
         return "execute"
     return "format"
@@ -40,8 +36,8 @@ workflow.add_conditional_edges(
     "intent",
     should_ask_clarification,
     {
-        "clarify": END,  # Stop and ask user
-        "plan": "plan"   # Continue to planning
+        "clarify": END,
+        "plan": "plan"
     }
 )
 
@@ -51,12 +47,10 @@ workflow.add_conditional_edges(
     "execute",
     should_continue_execution,
     {
-        "execute": "execute",  # Loop for multi-step
-        "format": "format"     # Done executing
+        "execute": "execute",
+        "format": "format"
     }
 )
 
 workflow.add_edge("format", END)
-
-# Compile
 app = workflow.compile()
