@@ -158,14 +158,14 @@ async def chat(
             
             response = {
                 "type": "response",
-                "message": final_state["final_output"],
-                "metadata": {
-                    "extracted_content": final_state.get("extracted_content", "")[:500],
-                    "extraction_metadata": final_state.get("extraction_metadata", {}),
-                    "detected_intent": final_state.get("detected_intent"),
-                    "execution_plan": final_state.get("execution_plan", []),
-                },
-                "logs": final_state["logs"],
+                "message": final_state["step_results"],
+                # "metadata": {
+                #     "extracted_content": final_state.get("extracted_content", "")[:500],
+                #     "extraction_metadata": final_state.get("extraction_metadata", {}),
+                #     "detected_intent": final_state.get("detected_intent"),
+                #     "execution_plan": final_state.get("execution_plan", []),
+                # },
+                # "logs": final_state["logs"],
                 "session_id": session_id
             }
         

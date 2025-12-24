@@ -9,7 +9,9 @@ from nodes import (
 )
 
 def should_ask_clarification(state: AgentState) -> str:
-    if state["needs_clarification"] and not state.get("user_clarification"):
+    # print(f"{state["needs_clarification"]}, {state.get("user_clarification")}")
+    # if state["needs_clarification"] and not state.get("user_clarification"):
+    if state["needs_clarification"]:
         return "clarify"
     return "plan"
 

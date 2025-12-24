@@ -56,8 +56,9 @@ def extract_content(input_type: str, input_data: str) -> Dict[str, Any]:
         }
     
     elif input_type == "youtube":
-        from tools import youtube_tool
-        result = youtube_tool.get_transcript(input_data)
+        from tools.youtube_transcribe import get_transcript
+        print(f"YT Link is in this format: {input_data}")
+        result = get_transcript(input_data)
         return {
             "content": result["transcript"] if result["success"] else "",
             "metadata": {"video_id": result.get("video_id")}
@@ -82,6 +83,15 @@ def process(state: AgentState) -> AgentState:
     
     # Step 2: Extract content
     try:
+        if input_type == "youtube":
+            import re
+            match = re.search(
+                r"(https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?[^\s]+|youtu\.be\/[^\s]+))",
+                state["user_prompt"]
+            )
+            state["input_data"] = match.group(1)
+            result = extract_content(input_type, state.get("input_data", state["user_prompt"]))
+
         result = extract_content(input_type, state.get("input_data", state["user_prompt"]))
         state["extracted_content"] = result["content"]
         state["extraction_metadata"] = result["metadata"]

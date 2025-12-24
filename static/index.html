@@ -360,8 +360,14 @@
             const messageContent = document.createElement('div');
             messageContent.className = 'message-content';
             
+            
             // Format content (preserve line breaks)
+            console.log(content)
             messageContent.innerHTML = content.replace(/\n/g, '<br>');
+            
+            // messageContent.innerHTML = content.json.replace
+            // messageContent.innerHTML = content.join('\n').replace(/\n/g, '<br>');
+
 
             messageDiv.appendChild(avatar);
             messageDiv.appendChild(messageContent);
@@ -468,7 +474,9 @@
                     addMessage('clarification', `❓ ${data.message}`);
                     pendingClarification = true;
                 } else {
-                    addMessage('assistant', data.message, data.metadata, data.logs);
+                    // addMessage('assistant', data.message, data.metadata, data.logs);
+                    // console.log(data.message)
+                    addMessage('assistant', data.message);
                     pendingClarification = false;
                 }
 

@@ -31,21 +31,39 @@ def process(state: AgentState) -> AgentState:
     output_parts.append("TASK RESULTS:")
     output_parts.append("")
     
-    for task, result in state["step_results"].items():
-        output_parts.append(f"{task.upper().replace('_', ' ')}")
-        output_parts.append("-" * 80)
+    # for task, result in state["step_results"].items():
+    #     output_parts.append(f"{task.upper().replace('_', ' ')}")
+    #     output_parts.append("-" * 80)
         
-        if isinstance(result, dict):
-            if "error" in result:
-                output_parts.append(f"Error: {result['error']}")
-            else:
-                for key, value in result.items():
-                    if key != "text":  # Don't repeat full text
-                        output_parts.append(f"  {key}: {value}")
+    #     if isinstance(result, dict):
+    #         if "error" in result:
+    #             output_parts.append(f"Error: {result['error']}")
+    #         else:
+    #             for key, value in result.items():
+    #                 if key != "text":  # Don't repeat full text
+    #                     output_parts.append(f"  {key}: {value}")
+    #     else:
+    #         output_parts.append(str(result))
+        
+    #     output_parts.append("")
+
+    # for result in state["step_results"]:
+    result = state["step_results"]
+    output_parts.append(f"Task Output")
+    output_parts.append("-" * 80)
+    
+    if isinstance(result, dict):
+        if "error" in result:
+            output_parts.append(f"Error: {result['error']}")
         else:
-            output_parts.append(str(result))
+            for key, value in result.items():
+                if key != "text":  # Don't repeat full text
+                    output_parts.append(f"  {key}: {value}")
+    else:
+        output_parts.append(str(result))
+    
+    output_parts.append("")
         
-        output_parts.append("")
     
     state["final_output"] = "\n".join(output_parts)
     state["logs"].append("Output formatted successfully")
