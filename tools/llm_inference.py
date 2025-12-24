@@ -27,13 +27,6 @@ def inference(system_prompt="""""", user_prompt="""""", json_req=False):
         print(json_str)
         return json_str
 
-    # for chunk in completion:
-    #     reasoning = getattr(chunk.choices[0].delta, "reasoning_content", None)
-    #     if reasoning:
-    #         print(reasoning, end="")
-    #     if chunk.choices[0].delta.content is not None:
-    #         print(chunk.choices[0].delta.content, end="")
-
     return response
 
 from google import genai

@@ -28,11 +28,6 @@ def get_transcript(text: str) -> dict:
         ytt_api = YouTubeTranscriptApi()
         
         transcript_list = ytt_api.fetch(video_id)
-
-        # Prefer English if available
-        # transcript = transcript_list.find_transcript(["en"])
-        # transcript_data = transcript.fetch()
-
         full_text = " ".join(
             snippet.text for snippet in transcript_list.snippets
         )

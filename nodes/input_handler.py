@@ -1,5 +1,3 @@
-# nodes/input_handler.py
-
 import os
 from graph.state import AgentState
 from tools import ocr_tool, pdf_parser, asr

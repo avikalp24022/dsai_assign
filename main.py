@@ -1,7 +1,3 @@
-# ============================================================================
-# api/main.py - FastAPI Application Entry Point
-# ============================================================================
-
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -38,11 +34,6 @@ os.makedirs("static", exist_ok=True)
 
 # Session storage (in-memory for now)
 sessions = {}
-
-
-# ============================================================================
-# API Endpoints
-# ============================================================================
 
 @app.get("/", response_class=HTMLResponse)
 async def home():
@@ -159,13 +150,6 @@ async def chat(
             response = {
                 "type": "response",
                 "message": final_state["step_results"],
-                # "metadata": {
-                #     "extracted_content": final_state.get("extracted_content", "")[:500],
-                #     "extraction_metadata": final_state.get("extraction_metadata", {}),
-                #     "detected_intent": final_state.get("detected_intent"),
-                #     "execution_plan": final_state.get("execution_plan", []),
-                # },
-                # "logs": final_state["logs"],
                 "session_id": session_id
             }
         
@@ -211,17 +195,7 @@ async def clear_session(session_id: str):
     
     return {"status": "cleared"}
 
-
-# ============================================================================
-# Mount static files
-# ============================================================================
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
-
-# ============================================================================
-# Run server
-# ============================================================================
 
 if __name__ == "__main__":
     print("=" * 80)
@@ -237,16 +211,3 @@ if __name__ == "__main__":
         port=8000,
         reload=True
     )
-
-
-# ============================================================================
-# static/index.html - Chat Interface
-# ============================================================================
-
-# HTML_CONTENT = """
-
-# """
-
-# # Save HTML file
-# with open("static/index.html", "w") as f:
-#     f.write(HTML_CONTENT)

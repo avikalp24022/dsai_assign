@@ -1,14 +1,9 @@
 from graph.state import AgentState
 from tools import (
-    # asr, ocr_tool, pdf_parser, youtube_transcribe,
     summarization, sentiment_analysis, code_analysis, conversation
 )
 
 TASK_MAP = {
-    # "transcribe_audio": asr.transcribe,
-    # "ocr_image": ocr_tool.extract,
-    # "parse_pdf": pdf_parser.extract_pdf,
-    # "fetch_youtube": youtube_transcribe.get_transcript,
     "transcribe": "transcribe",
     "youtube_transcript": "transcribe",
     "extract_text": "transcribe",
@@ -34,20 +29,6 @@ def process(state: AgentState) -> AgentState:
             state["step_results"][current_task] = {"error": f"Unknown task: {current_task}"}
             state["current_step"] += 1
             return state
-        
-        # Determine input for the tool
-        # if current_task in ["transcribe_audio", "ocr_image", "parse_pdf"]:
-        #     input_data = state.get("input_data")
-        #     query = state["user_prompt"]
-        #     result = tool_func(input_data, query)
-            
-        #     if "text" in result:
-        #         state["extracted_content"] = result["text"]
-        
-        # elif current_task == "fetch_youtube":
-        #     result = tool_func(state["user_prompt"])
-        #     if result.get("success"):
-        #         state["extracted_content"] = result["transcript"]
         
         if current_task == "code_explanation":
             content = state.get("extracted_content", "")
